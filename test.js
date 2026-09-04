@@ -126,6 +126,10 @@ test('metadata type filter must be a string', (t) => {
   t.exception.all(() => heif.getMetadata(heic, null), /type must be a string/)
 })
 
+test('get metadata from a malformed image throws', (t) => {
+  t.exception(() => heif.getMetadata(heic.subarray(0, 100)), /Cannot read full meta box/)
+})
+
 // Helpers
 
 // Overwrite bytes inside a named ISOBMFF box, keeping the surrounding boxes
