@@ -128,7 +128,7 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
   err = js_get_callback_info(env, info, &argc, argv, NULL, NULL);
   assert(err == 0);
 
-  assert(argc >= 1);
+  assert(argc == 2);
 
   void *input;
   size_t input_len;
