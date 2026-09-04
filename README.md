@@ -31,7 +31,7 @@ heif.getMetadata(image)
 //   ...
 // ]
 
-// Filter metadata by 'Exif', 'mime' or 'uri ' (note the space)
+// Filter metadata by its four-character HEIF item type
 const [exifMetadata] = heif.getMetadata(image, 'Exif')
 
 // Skip the metadata offset to get the raw EXIF data

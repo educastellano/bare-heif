@@ -135,7 +135,8 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
   err = js_get_typedarray_info(env, argv[0], NULL, &input, &input_len, NULL, NULL);
   assert(err == 0);
 
-  char *filter = NULL;
+  char filter_buffer[5];
+  const char *filter = NULL;
 
   if (argc == 2) {
     js_value_type_t type;
@@ -154,11 +155,17 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
       err = js_get_value_string_utf8(env, argv[1], NULL, 0, &filter_len);
       assert(err == 0);
 
-      filter = malloc(filter_len + 1);
-      assert(filter);
+      if (filter_len != 4) {
+        err = js_throw_type_errorf(env, NULL, "type must be a four-character string");
+        assert(err == 0);
 
-      err = js_get_value_string_utf8(env, argv[1], (utf8_t *) filter, filter_len + 1, NULL);
+        return NULL;
+      }
+
+      err = js_get_value_string_utf8(env, argv[1], (utf8_t *) filter_buffer, sizeof(filter_buffer), NULL);
       assert(err == 0);
+
+      filter = filter_buffer;
     }
   }
 
@@ -171,7 +178,6 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
     err = js_throw_errorf(env, NULL, "%s", error.message);
     assert(err == 0);
 
-    free(filter);
     heif_context_free(ctx);
 
     return NULL;
@@ -184,7 +190,6 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
     err = js_throw_errorf(env, NULL, "%s", error.message);
     assert(err == 0);
 
-    free(filter);
     heif_context_free(ctx);
 
     return NULL;
@@ -235,7 +240,6 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
       assert(err == 0);
 
       free(ids);
-      free(filter);
       heif_image_handle_release(handle);
       heif_context_free(ctx);
 
@@ -250,7 +254,6 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
   }
 
   free(ids);
-  free(filter);
   heif_image_handle_release(handle);
   heif_context_free(ctx);
 

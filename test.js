@@ -122,8 +122,9 @@ test('get metadata from .heic - URI', (t) => {
   t.ok(uri.data.includes('bare-heif uri metadata fixture'))
 })
 
-test('metadata type filter must be a string', (t) => {
+test('metadata type filter must be a four-character string', (t) => {
   t.exception.all(() => heif.getMetadata(heic, null), /type must be a string/)
+  t.exception.all(() => heif.getMetadata(heic, 'uri'), /four-character string/)
 })
 
 test('get metadata from a malformed image throws', (t) => {
