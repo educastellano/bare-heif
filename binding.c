@@ -163,6 +163,7 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
   }
 
   struct heif_context *ctx = heif_context_alloc();
+  assert(ctx);
 
   struct heif_error error = heif_context_read_from_memory_without_copy(ctx, input, input_len, NULL);
 
