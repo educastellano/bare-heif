@@ -137,7 +137,7 @@ bare_heif_get_metadata(js_env_t *env, js_callback_info_t *info) {
 
   char *filter = NULL;
 
-  if (argc >= 2) {
+  if (argc == 2) {
     js_value_type_t type;
     err = js_typeof(env, argv[1], &type);
     assert(err == 0);
